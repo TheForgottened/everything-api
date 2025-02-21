@@ -27,4 +27,4 @@ endpoint imaginable, even if it doesn't actually serve any purpose.
 
 > In the realm of API security, obscurity through infinite possibility becomes a feature rather than a flaw.
 >
-> &mdash; <cite>Schrödinger's API Principle by R1, Deepseek (circa 2025 BC)</cite>
+> &mdash; _Schrödinger's API Principle by R1, Deepseek (circa 2025 BC)_

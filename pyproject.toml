@@ -1,0 +1,132 @@
+[tool.poetry]
+name = "everything-api"
+version = "0.1.0"
+description = "An AI-powered API that does not exist, yet does everything."
+authors = ["TheForgottened"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.2"
+pydantic = "^2.9.2"
+uvicorn = "^0.32.0"
+pydantic-settings = "^2.6.0"
+ollama = "^0.4.4"
+loguru = "^0.7.3"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+pytest-repeat = "^0.9.3"
+pytest-socket = "^0.7.0"
+pytest-cov = "^6.0.0"
+ruff = "^0.8.4"
+httpx = "^0.27.2"
+
+[tool.pytest.ini_options]
+python_files = "*_test.py *_tests.py"
+addopts = "--cov=app --cov-fail-under=90 --cov-report html --disable-socket --allow-unix-socket --strict-markers"
+required_plugins = "pytest-repeat pytest-socket pytest-cov"
+testpaths = ["tests"]
+markers = [
+    "unit_test: Unit tests.",
+    "integration_test: Integration tests for application level (external dependecies are mocked)."
+]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.run]
+branch = true
+source = ["app/*"]
+omit = ["tests/*", "app/__init__.py"]
+
+[tool.coverage.report]
+exclude_also = [
+    "pass",
+    "@(abc\\.)?abstractmethod",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:"
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+indent-width = 4
+fix = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+line-ending = "lf" # Change all line endings to UNIX-style
+
+[tool.ruff.lint]
+extend-select = [
+    "N", # pep8-naming
+    "S", # flake8-bandit
+    "B", # flake8-bugbear
+    "PT", # flake8-pytest-style
+    "ANN", # flake8-annotations
+    "C90", # mccabe
+    "DTZ", # flake8-datetimez
+    "INP", # flake8-no-pep420
+    "PIE", # flake8-pie
+    "PTH", # flake8-use-pathlib
+    "SIM", # flake8-simplify
+    "T10", # flake8-debugger
+    "T20", # flake8-print
+    "TRY2", # tryceratops
+    "TRY3", # tryceratops
+    "TRY4", # tryceratops
+    "RUF001", # Ruff-specific rules: ambiguous-unicode-character-string
+    "RUF002", # Ruff-specific rules: ambiguous-unicode-character-docstring
+    "RUF003", # Ruff-specific rules: ambiguous-unicode-character-comment
+    "RUF100", # Ruff-specific rules: unused-noqa
+]
+ignore = [
+    "ANN1", # Missing type annotation for self/cls in method/classmethod
+    "ANN002", # Missing type annotation for *args
+    "ANN003", # Missing type annotation for **kwargs
+    "ANN401", # Dynamically typed expressions (typing.Any) are disallowed
+    "PT011", # pytest.raises({exception}) is too broad, set the match parameter or use a more specific exception
+    "PT022", # No teardown in fixture {name}, use return instead of yield
+]
+fixable = [
+    "I001", # Import block is un-sorted or un-formatted
+]
+dummy-variable-rgx = "^_+$"
+
+[tool.ruff.lint.per-file-ignores]
+"app/__init__.py" = [
+    "S104" # Possible binding to all interfaces
+]
+
+"tests/*" = [
+    "S101", # Use of assert detected
+    "S311", # Standard pseudo-random generators are not suitable for cryptographic purposes
+    "ANN201", # Missing return type annotation for public function
+    "S106", # Possible hardcoded password assigned to argument: "{}"
+]
+
+[tool.ruff.lint.pep8-naming]
+classmethod-decorators = [
+    "pydantic.field_validator",
+    "pydantic.v1.validator",
+]
+
+[tool.ruff.lint.flake8-annotations]
+suppress-dummy-args = true
+allow-star-arg-any = true
+mypy-init-return = true
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.pylint]
+max-args = 10
+

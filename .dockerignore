@@ -1,0 +1,18 @@
+# tests & coverage reports
+/tests
+htmlcov/
+.coverage
+.coverage.*
+
+# environments
+venv/
+.venv/
+.env*
+
+# git
+.gitignore
+.git
+
+# docker
+docker-compose*.yaml
+Dockerfile*

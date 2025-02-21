@@ -1,0 +1,39 @@
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      EVERYTHING_API_OLLAMA_HOST: "http://llm"
+      EVERYTHING_API_OLLAMA_PORT: "11434"
+    depends_on:
+      - llm
+
+  llm:
+    image: ollama/ollama:latest
+    volumes:
+      - llm-volume:/root/.ollama
+    ports:
+      - "11434:11434"
+
+  curl:
+    image: curlimages/curl:latest
+    command:
+      - "sh"
+      - "-c"
+      - |
+        sleep 5 
+        curl -v -X POST \
+        -H "Content-type: application/json" \
+        -d '{"name": "${EVERYTHING_API_OLLAMA_MODEL}"}' \
+        'http://llm:11434/api/pull'
+    env_file:
+      - .env
+    depends_on:
+      - llm
+
+volumes:
+  llm-volume:
